@@ -21,6 +21,9 @@ public final class Point {
         return y;
     }
 
+    /**
+     * Makes new point relative to this by specified direction and distance
+     */
     public Point relativePoint(@NotNull Direction direction, int distance) {
         int newX = this.x + direction.i * distance;
         int newY = this.y + direction.j * distance;

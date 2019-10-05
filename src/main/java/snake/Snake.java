@@ -1,9 +1,9 @@
 package snake;
 
+import snake.Exceptions.BiteItselfException;
+
 import javax.validation.constraints.NotNull;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Iterator;
+import java.util.*;
 
 public class Snake implements Iterable<Point> {
 
@@ -15,6 +15,11 @@ public class Snake implements Iterable<Point> {
     private final Deque<Point> bodyPosition;
 
     /**
+     * It needs to detect a bite of the snake tail
+     */
+    private final Set<Point> setOfBodyPoints;
+
+    /**
      * Direction which the snake is moving
      */
     private Direction direction;
@@ -24,6 +29,10 @@ public class Snake implements Iterable<Point> {
     Snake(@NotNull Point startingPoint, @NotNull Direction startingDirection, int startingSpeed) {
         this.bodyPosition = new LinkedList<>();
         this.bodyPosition.offerFirst(startingPoint);
+
+        this.setOfBodyPoints = new HashSet<>();
+        this.setOfBodyPoints.add(startingPoint);
+
         this.direction = startingDirection;
         this.speed = startingSpeed;
         this.growingSteps = 0;
@@ -48,32 +57,39 @@ public class Snake implements Iterable<Point> {
 
     /**
      * Applies new position based on velocity and previous position.
+     *
+     * @throws BiteItselfException in case if snake bites itself
      */
-    public Snake nextStep() {
+    public Snake nextStep() throws BiteItselfException {
         Point headPoint = this.bodyPosition.getFirst();
 
         if (this.growingSteps > 0) {
             --this.growingSteps;
         } else {
-            this.bodyPosition.removeLast();
+            this.setOfBodyPoints.remove(
+                    this.bodyPosition.pollLast()
+            );
         }
 
-        Point nextPoint = headPoint.relativePoint(this.direction, this.speed);
+        Point nextPoint = headPoint.relativePoint(
+                this.direction,
+                this.speed
+        );
+
         this.bodyPosition.offerFirst(nextPoint);
+        if (!this.setOfBodyPoints.add(nextPoint)) {
+            throw new BiteItselfException();
+        }
 
         return this;
     }
 
-    public int getSpeed() {
-        return speed;
+    public int size() {
+        return this.bodyPosition.size();
     }
 
     public Direction getDirection() {
         return direction;
-    }
-
-    public int size() {
-        return this.bodyPosition.size();
     }
 
     public Snake setDirection(@NotNull Direction newDirection) {
@@ -90,6 +106,10 @@ public class Snake implements Iterable<Point> {
                 }
         }
         return this;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 
     public Snake setSpeed(int speed) {
