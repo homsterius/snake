@@ -6,7 +6,7 @@ public class Food {
 
     private final Point position;
 
-    public Food(int theCalorie, Point thePosition) {
+    Food(int theCalorie, Point thePosition) {
         this.calorie = theCalorie;
         this.position = thePosition;
     }

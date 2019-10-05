@@ -50,7 +50,7 @@ public class Snake implements Iterable<Point> {
      * Increase the size of the snake.
      * Size are not increasing immediately but by the next several steps of the snake.
      */
-    public Snake eats(@NotNull Food food) {
+    Snake eats(@NotNull Food food) {
         this.growingSteps += food.getCalorie();
         return this;
     }
@@ -60,7 +60,7 @@ public class Snake implements Iterable<Point> {
      *
      * @throws BiteItselfException in case if snake bites itself
      */
-    public Snake nextStep() throws BiteItselfException {
+    Snake nextStep() throws BiteItselfException {
         Point headPoint = this.bodyPosition.getFirst();
 
         if (this.growingSteps > 0) {
@@ -112,8 +112,12 @@ public class Snake implements Iterable<Point> {
         return speed;
     }
 
-    public Snake setSpeed(int speed) {
+    Snake setSpeed(int speed) {
         this.speed = speed;
         return this;
+    }
+
+    public Point getHeadPoint() {
+        return this.bodyPosition.getFirst();
     }
 }

@@ -35,19 +35,19 @@ public class SnakeTest {
             snake.nextStep()
                     .nextStep()
                     .nextStep();
-            assertEquals(snake.iterator().next(), new Point(0, 3));
+            assertEquals(snake.getHeadPoint(), new Point(0, 3));
 
             snake.setDirection(Direction.RIGHT)
                     .nextStep()
                     .nextStep()
                     .nextStep();
-            assertEquals(snake.iterator().next(), new Point(3, 3));
+            assertEquals(snake.getHeadPoint(), new Point(3, 3));
 
             snake.setSpeed(3)
                     .nextStep()
                     .nextStep()
                     .nextStep();
-            assertEquals(snake.iterator().next(), new Point(12, 3));
+            assertEquals(snake.getHeadPoint(), new Point(12, 3));
         } catch (BiteItselfException e) {
             fail("Exception BiteItselfException shouldn't be thrown");
         }

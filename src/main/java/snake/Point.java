@@ -8,7 +8,7 @@ public final class Point {
     private final int x;
     private final int y;
 
-    public Point(int theX, int theY) {
+    Point(int theX, int theY) {
         this.x = theX;
         this.y = theY;
     }
@@ -24,7 +24,7 @@ public final class Point {
     /**
      * Makes new point relative to this by specified direction and distance
      */
-    public Point relativePoint(@NotNull Direction direction, int distance) {
+    Point relativePoint(@NotNull Direction direction, int distance) {
         int newX = this.x + direction.i * distance;
         int newY = this.y + direction.j * distance;
         return new Point(newX, newY);
