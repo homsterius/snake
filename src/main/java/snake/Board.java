@@ -1,0 +1,57 @@
+package snake;
+
+import javax.validation.constraints.NotNull;
+
+public class Board {
+
+    private final Point[] points;
+
+    /**
+     * @param boardVertices is the list of all vertices of the board
+     */
+    Board(@NotNull Point[] boardVertices) {
+        if (boardVertices.length < 3) {
+            throw new IllegalArgumentException("Board should consist at least of three points");
+        }
+        this.points = boardVertices.clone();
+    }
+
+    /**
+     * Check collision by even-odd rule
+     */
+    public boolean isAPointInside(@NotNull Point point) {
+        var p0 = this.points[this.points.length - 1];
+
+        boolean snakeIsInside = false;
+
+        for (var p1 : this.points) {
+            if ((p0.getY() < point.getY()) != (p1.getY() < point.getY())) {
+                int x = this.getXOfALine(point.getY(), p0, p1);
+
+                if (point.getX() < x) {
+                    snakeIsInside = !snakeIsInside;
+                } else if (point.getX() == x) {
+                    return false;
+                }
+            } else if (p0.getY() == point.getY() && p1.getY() == point.getY() &&
+                    (point.getX() >= p0.getX() && point.getX() <= p1.getX() ||
+                            point.getX() >= p1.getX() && point.getX() <= p0.getX())
+            ) {
+                return false;
+            }
+
+            p0 = p1;
+        }
+
+        return snakeIsInside;
+    }
+
+    /**
+     * Returns x coordinate of a point on a line by y coordinate
+     */
+    private int getXOfALine(int y, Point p0, Point p1) {
+        return p0.getX() +
+                (y - p0.getY()) * (p1.getX() - p0.getX()) /
+                (p1.getY() - p0.getY());
+    }
+}
