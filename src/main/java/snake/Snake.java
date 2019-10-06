@@ -7,8 +7,6 @@ import java.util.*;
 
 public class Snake implements Iterable<Point> {
 
-    private int speed;
-
     /**
      * All points of the snake position
      */
@@ -26,7 +24,7 @@ public class Snake implements Iterable<Point> {
 
     private int growingSteps;
 
-    Snake(@NotNull Point startingPoint, @NotNull Direction startingDirection, int startingSpeed) {
+    Snake(@NotNull Point startingPoint, @NotNull Direction startingDirection) {
         this.bodyPosition = new LinkedList<>();
         this.bodyPosition.offerFirst(startingPoint);
 
@@ -34,7 +32,6 @@ public class Snake implements Iterable<Point> {
         this.setOfBodyPoints.add(startingPoint);
 
         this.direction = startingDirection;
-        this.speed = startingSpeed;
         this.growingSteps = 0;
     }
 
@@ -71,10 +68,7 @@ public class Snake implements Iterable<Point> {
             );
         }
 
-        Point nextPoint = headPoint.relativePoint(
-                this.direction,
-                this.speed
-        );
+        Point nextPoint = headPoint.relativePoint(this.direction);
 
         this.bodyPosition.offerFirst(nextPoint);
         if (!this.setOfBodyPoints.add(nextPoint)) {
@@ -105,15 +99,6 @@ public class Snake implements Iterable<Point> {
                     this.direction = newDirection;
                 }
         }
-        return this;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    Snake setSpeed(int speed) {
-        this.speed = speed;
         return this;
     }
 

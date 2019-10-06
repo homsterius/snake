@@ -30,6 +30,10 @@ public final class Point {
         return new Point(newX, newY);
     }
 
+    Point relativePoint(@NotNull Direction direction) {
+        return this.relativePoint(direction, 1);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
