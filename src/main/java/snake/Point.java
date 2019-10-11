@@ -47,4 +47,8 @@ public final class Point {
         return x == point.x &&
                 y == point.y;
     }
+
+    public String toString() {
+        return "Point(" + this.x + ", " + this.y + ")";
+    }
 }
