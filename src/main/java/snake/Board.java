@@ -6,6 +6,11 @@ public class Board {
 
     private final Point[] points;
 
+    private int leftmostX = 0;
+    private int rightmostX = 0;
+    private int upperY = 0;
+    private int lowerY = 0;
+
     /**
      * @param boardVertices is the list of all vertices of the board
      */
@@ -13,7 +18,25 @@ public class Board {
         if (boardVertices.length < 3) {
             throw new IllegalArgumentException("Board should consist at least of three points");
         }
-        this.points = boardVertices.clone();
+
+        this.points = new Point[boardVertices.length];
+        int i = 0;
+        for (Point point : boardVertices) {
+            if (this.leftmostX > point.getX()) {
+                this.leftmostX = point.getX();
+            }
+            if (this.rightmostX < point.getX()) {
+                this.rightmostX = point.getX();
+            }
+            if (this.upperY < point.getY()) {
+                this.upperY = point.getY();
+            }
+            if (this.lowerY > point.getY()) {
+                this.lowerY = point.getY();
+            }
+
+            this.points[i++] = point;
+        }
     }
 
     /**
@@ -53,5 +76,21 @@ public class Board {
         return p0.getX() +
                 (y - p0.getY()) * (p1.getX() - p0.getX()) /
                 (p1.getY() - p0.getY());
+    }
+
+    public int getLeftmostX() {
+        return leftmostX;
+    }
+
+    public int getRightmostX() {
+        return rightmostX;
+    }
+
+    public int getUpperY() {
+        return upperY;
+    }
+
+    public int getLowerY() {
+        return lowerY;
     }
 }

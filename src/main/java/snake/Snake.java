@@ -115,4 +115,8 @@ public class Snake implements Iterable<Point> {
                 .filter(p -> !this.setOfBodyPoints.contains(p))
                 .collect(Collectors.toSet());
     }
+
+    boolean contains(Point point) {
+        return this.setOfBodyPoints.contains(point);
+    }
 }
