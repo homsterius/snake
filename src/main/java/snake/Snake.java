@@ -4,6 +4,7 @@ import snake.Exceptions.BiteItselfException;
 
 import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Snake implements Iterable<Point> {
 
@@ -104,5 +105,14 @@ public class Snake implements Iterable<Point> {
 
     public Point getHeadPoint() {
         return this.bodyPosition.getFirst();
+    }
+
+    /**
+     * Returns points without snake
+     */
+    public Set<Point> diff(Set<Point> points) {
+        return points.stream()
+                .filter(p -> !this.setOfBodyPoints.contains(p))
+                .collect(Collectors.toSet());
     }
 }

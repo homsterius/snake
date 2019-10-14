@@ -3,6 +3,8 @@ package snake;
 import org.testng.annotations.Test;
 import snake.Exceptions.BiteItselfException;
 
+import java.util.HashSet;
+
 import static org.testng.Assert.*;
 
 public class SnakeTest {
@@ -87,6 +89,29 @@ public class SnakeTest {
                 .nextStep()
                 .setDirection(Direction.LEFT)
                 .nextStep();
+    }
+
+    @Test
+    public void testDiff() {
+        var points = new HashSet<Point>();
+        points.add(new Point(0, 0));
+        points.add(new Point(1, 0));
+        points.add(new Point(0, 1));
+        points.add(new Point(1, 1));
+
+        var snake = this.createSnake();
+
+        try {
+            snake.eats(new Food(3, new Point(0, 0)))
+                .nextStep().nextStep().nextStep();
+        } catch (BiteItselfException e) {
+            fail("Exception BiteItselfException shouldn't be thrown");
+        }
+
+        var expected = new HashSet<Point>();
+        expected.add(new Point(1,0));
+        expected.add(new Point(1,1));
+        assertEquals(snake.diff(points), expected);
     }
 
     private Snake createSnake() {
