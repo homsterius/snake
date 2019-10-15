@@ -22,7 +22,7 @@ class FoodBuilder {
         }
     }
 
-    Point nextPoint() {
+    Food buildFood(int calorie) {
         var index = (int) (Math.random() * this.points.size()) - this.snake.size();
         int i = 0;
         int j = 0;
@@ -34,6 +34,6 @@ class FoodBuilder {
             ++i;
         }
 
-        return this.points.get(i);
+        return new Food(calorie, this.points.get(i));
     }
 }
