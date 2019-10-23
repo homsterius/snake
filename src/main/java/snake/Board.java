@@ -1,10 +1,15 @@
 package snake;
 
+import snake.Exceptions.ThereIsNoPointsLeft;
+
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
 
     private final Point[] points;
+    private final List<Point> innerPoints;
 
     private int leftmostX = 0;
     private int rightmostX = 0;
@@ -20,6 +25,25 @@ public class Board {
         }
 
         this.points = new Point[boardVertices.length];
+        this.initBoundaries(boardVertices);
+
+        this.innerPoints = new ArrayList<>();
+        this.initInnerPoints();
+    }
+
+    private void initInnerPoints() {
+        for (int y = this.getLowerY() + 1; y < this.getUpperY(); ++y) {
+            for (int x = this.getLeftmostX() + 1; x < this.getRightmostX(); ++x) {
+                Point p = new Point(x, y);
+
+                if (this.isAPointInside(p)) {
+                    this.innerPoints.add(p);
+                }
+            }
+        }
+    }
+
+    private void initBoundaries(Point[] boardVertices) {
         int i = 0;
         for (Point point : boardVertices) {
             if (this.leftmostX > point.getX()) {
@@ -75,7 +99,7 @@ public class Board {
     private int getXOfALine(int y, Point p0, Point p1) {
         return p0.getX() +
                 (y - p0.getY()) * (p1.getX() - p0.getX()) /
-                (p1.getY() - p0.getY());
+                        (p1.getY() - p0.getY());
     }
 
     public int getLeftmostX() {
@@ -92,5 +116,50 @@ public class Board {
 
     public int getLowerY() {
         return lowerY;
+    }
+
+    private @NotNull Point randomPoint(@NotNull Snake snake) throws ThereIsNoPointsLeft {
+        if (snake.size() == this.innerPoints.size()) {
+            throw new ThereIsNoPointsLeft();
+        }
+
+        var j = (int) (Math.random() * this.innerPoints.size());
+
+        while (true) {
+            Point p = this.innerPoints.get(j);
+            if (!snake.contains(p)) {
+                break;
+            }
+
+            j = (j + 1) % this.innerPoints.size();
+        }
+
+        return this.innerPoints.get(j);
+    }
+
+    private @NotNull Point randomPoint() {
+        var j = (int) (Math.random() * this.innerPoints.size());
+        return this.innerPoints.get(j);
+    }
+
+    @NotNull Food buildFood(int calorie, Snake snake) throws ThereIsNoPointsLeft {
+        return new Food(calorie, this.randomPoint(snake));
+    }
+
+    @NotNull Snake buildSnake() {
+        var point = this.randomPoint();
+        Direction direction;
+
+        if (this.isAPointInside(new Point(point.getX(), point.getY() + 1))) {
+            direction = Direction.UP;
+        } else if (this.isAPointInside(new Point(point.getX() + 1, point.getY()))) {
+            direction = Direction.RIGHT;
+        } else if (this.isAPointInside(new Point(point.getX(), point.getY() - 1))) {
+            direction = Direction.DOWN;
+        } else {
+            direction = Direction.LEFT;
+        }
+
+        return new Snake(point, direction);
     }
 }
