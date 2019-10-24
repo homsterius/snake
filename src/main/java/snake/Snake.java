@@ -16,7 +16,7 @@ public class Snake implements Iterable<Point> {
     /**
      * It needs to detect a bite of the snake tail
      */
-    private final Set<Point> setOfBodyPoints;
+    private final Set<Point> bodyPointsSet;
 
     /**
      * Direction which the snake is moving
@@ -29,8 +29,8 @@ public class Snake implements Iterable<Point> {
         this.bodyPosition = new LinkedList<>();
         this.bodyPosition.offerFirst(startingPoint);
 
-        this.setOfBodyPoints = new HashSet<>();
-        this.setOfBodyPoints.add(startingPoint);
+        this.bodyPointsSet = new HashSet<>();
+        this.bodyPointsSet.add(startingPoint);
 
         this.direction = startingDirection;
         this.growingSteps = 0;
@@ -40,7 +40,7 @@ public class Snake implements Iterable<Point> {
      * Returns {@code Iterator<Point>}
      */
     @Override
-    public Iterator<Point> iterator() {
+    public synchronized Iterator<Point> iterator() {
         return this.bodyPosition.iterator();
     }
 
@@ -48,7 +48,7 @@ public class Snake implements Iterable<Point> {
      * Increase the size of the snake.
      * Size are not increasing immediately but by the next several steps of the snake.
      */
-    Snake eats(@NotNull Food food) {
+    synchronized Snake eats(@NotNull Food food) {
         this.growingSteps += food.getCalorie();
         return this;
     }
@@ -58,13 +58,13 @@ public class Snake implements Iterable<Point> {
      *
      * @throws BiteItselfException in case if snake bites itself
      */
-    Snake nextStep() throws BiteItselfException {
+    synchronized Snake nextStep() throws BiteItselfException {
         Point headPoint = this.bodyPosition.getFirst();
 
         if (this.growingSteps > 0) {
             --this.growingSteps;
         } else {
-            this.setOfBodyPoints.remove(
+            this.bodyPointsSet.remove(
                     this.bodyPosition.pollLast()
             );
         }
@@ -72,22 +72,22 @@ public class Snake implements Iterable<Point> {
         Point nextPoint = headPoint.relativePoint(this.direction);
 
         this.bodyPosition.offerFirst(nextPoint);
-        if (!this.setOfBodyPoints.add(nextPoint)) {
+        if (!this.bodyPointsSet.add(nextPoint)) {
             throw new BiteItselfException();
         }
 
         return this;
     }
 
-    public int size() {
+    public synchronized int size() {
         return this.bodyPosition.size();
     }
 
-    public Direction getDirection() {
+    public synchronized Direction getDirection() {
         return direction;
     }
 
-    public Snake setDirection(@NotNull Direction newDirection) {
+    public synchronized Snake setDirection(@NotNull Direction newDirection) {
         switch (newDirection) {
             case UP:
             case DOWN:
@@ -103,20 +103,20 @@ public class Snake implements Iterable<Point> {
         return this;
     }
 
-    public Point getHeadPoint() {
+    public synchronized Point getHeadPoint() {
         return this.bodyPosition.getFirst();
     }
 
     /**
      * Returns points without snake
      */
-    public Set<Point> diff(Set<Point> points) {
+    public synchronized Set<Point> diff(Set<Point> points) {
         return points.stream()
-                .filter(p -> !this.setOfBodyPoints.contains(p))
+                .filter(p -> !this.bodyPointsSet.contains(p))
                 .collect(Collectors.toSet());
     }
 
-    boolean contains(Point point) {
-        return this.setOfBodyPoints.contains(point);
+    synchronized boolean contains(Point point) {
+        return this.bodyPointsSet.contains(point);
     }
 }
