@@ -23,6 +23,9 @@ public class Snake implements Iterable<Point> {
      */
     private Direction direction;
 
+    /**
+     * The number of steps left when the snake grows
+     */
     private int growingSteps;
 
     Snake(@NotNull Point startingPoint, @NotNull Direction startingDirection) {
