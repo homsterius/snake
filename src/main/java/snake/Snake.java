@@ -26,7 +26,12 @@ public class Snake implements Iterable<Point> {
     /**
      * The number of steps left when the snake grows
      */
-    private int growingSteps;
+    private int growingSteps = 0;
+
+    /**
+     * Steps that snake made
+     */
+    private int steps = 0;
 
     Snake(@NotNull Point startingPoint, @NotNull Direction startingDirection) {
         this.bodyPosition = new LinkedList<>();
@@ -36,7 +41,6 @@ public class Snake implements Iterable<Point> {
         this.bodyPointsSet.add(startingPoint);
 
         this.direction = startingDirection;
-        this.growingSteps = 0;
     }
 
     /**
@@ -75,6 +79,8 @@ public class Snake implements Iterable<Point> {
         Point nextPoint = headPoint.relativePoint(this.direction);
 
         this.bodyPosition.offerFirst(nextPoint);
+        ++this.steps;
+
         if (!this.bodyPointsSet.add(nextPoint)) {
             throw new BiteItselfException();
         }
@@ -121,5 +127,9 @@ public class Snake implements Iterable<Point> {
 
     synchronized boolean contains(Point point) {
         return this.bodyPointsSet.contains(point);
+    }
+
+    public int getSteps() {
+        return steps;
     }
 }
