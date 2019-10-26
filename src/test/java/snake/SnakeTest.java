@@ -114,6 +114,25 @@ public class SnakeTest {
         assertEquals(snake.diff(points), expected);
     }
 
+    @Test
+    public void testGetSteps() {
+        var snake = this.createSnake();
+        assertEquals(snake.getSteps(), 0);
+
+        try {
+            snake.nextStep();
+            assertEquals(snake.getSteps(), 1);
+
+            snake.nextStep();
+            assertEquals(snake.getSteps(), 2);
+
+            snake.nextStep();
+            assertEquals(snake.getSteps(), 3);
+        } catch (BiteItselfException e) {
+            fail("Exception BiteItselfException shouldn't be thrown");
+        }
+    }
+
     private Snake createSnake() {
         return new Snake(new Point(0, 0), Direction.UP);
     }
