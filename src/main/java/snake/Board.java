@@ -32,8 +32,8 @@ public class Board {
     }
 
     private void initInnerPoints() {
-        for (int y = this.getLowerY() + 1; y < this.getUpperY(); ++y) {
-            for (int x = this.getLeftmostX() + 1; x < this.getRightmostX(); ++x) {
+        for (int y = this.lowerY + 1; y < this.upperY; ++y) {
+            for (int x = this.leftmostX + 1; x < this.rightmostX; ++x) {
                 Point p = new Point(x, y);
 
                 if (this.isAPointInside(p)) {
@@ -100,22 +100,6 @@ public class Board {
         return p0.getX() +
                 (y - p0.getY()) * (p1.getX() - p0.getX()) /
                         (p1.getY() - p0.getY());
-    }
-
-    public int getLeftmostX() {
-        return leftmostX;
-    }
-
-    public int getRightmostX() {
-        return rightmostX;
-    }
-
-    public int getUpperY() {
-        return upperY;
-    }
-
-    public int getLowerY() {
-        return lowerY;
     }
 
     private @NotNull Point randomPoint(@NotNull Snake snake) throws ThereIsNoPointsLeft {
