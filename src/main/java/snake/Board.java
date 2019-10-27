@@ -1,6 +1,6 @@
 package snake;
 
-import snake.Exceptions.ThereIsNoPointsLeft;
+import snake.Exceptions.ThereIsNoPointsLeftException;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -106,9 +106,9 @@ public class Board {
                         (p1.getY() - p0.getY());
     }
 
-    private @NotNull Point randomPoint(@NotNull Snake snake) throws ThereIsNoPointsLeft {
+    private @NotNull Point randomPoint(@NotNull Snake snake) throws ThereIsNoPointsLeftException {
         if (snake.size() == this.innerPoints.size()) {
-            throw new ThereIsNoPointsLeft();
+            throw new ThereIsNoPointsLeftException();
         }
 
         var j = (int) (Math.random() * this.innerPoints.size());
@@ -130,7 +130,7 @@ public class Board {
         return this.innerPoints.get(j);
     }
 
-    @NotNull Food buildFood(int calorie, Snake snake) throws ThereIsNoPointsLeft {
+    @NotNull Food buildFood(int calorie, Snake snake) throws ThereIsNoPointsLeftException {
         return new Food(calorie, this.randomPoint(snake));
     }
 
