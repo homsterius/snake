@@ -1,6 +1,6 @@
 package snake;
 
-enum ControllerEvent {
+public enum ControllerEvent {
     KEY_UP,
     KEY_DOWN,
     KEY_RIGHT,
