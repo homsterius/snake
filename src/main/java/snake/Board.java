@@ -93,6 +93,10 @@ public class Board {
         return isAPointInside;
     }
 
+    public int getNumberOfInnerPoints() {
+        return this.innerPoints.size();
+    }
+
     /**
      * Returns x coordinate of a point on a line by y coordinate
      */
