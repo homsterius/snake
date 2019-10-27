@@ -69,14 +69,14 @@ public class Board {
     public boolean isAPointInside(@NotNull Point point) {
         var p0 = this.points[this.points.length - 1];
 
-        boolean isSnakeInside = false;
+        boolean isAPointInside = false;
 
         for (var p1 : this.points) {
             if ((p0.getY() < point.getY()) != (p1.getY() < point.getY())) {
                 int x = this.getXOfALine(point.getY(), p0, p1);
 
                 if (point.getX() < x) {
-                    isSnakeInside = !isSnakeInside;
+                    isAPointInside = !isAPointInside;
                 } else if (point.getX() == x) {
                     return false;
                 }
@@ -90,7 +90,7 @@ public class Board {
             p0 = p1;
         }
 
-        return isSnakeInside;
+        return isAPointInside;
     }
 
     /**
