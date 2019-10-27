@@ -10,15 +10,39 @@ import static org.testng.Assert.*;
 public class SnakeTest {
 
     @Test
+    public void testDoesNotEat() {
+        var snake = this.createSnake();
+
+        assertEquals(snake.size(), 1);
+
+        boolean didSnakeEat = snake.eats(new Food(1, new Point(1, 1)));
+
+        assertFalse(didSnakeEat);
+
+        try {
+            snake.nextStep()
+                    .nextStep();
+        } catch (BiteItselfException e) {
+            fail("Exception BiteItselfException shouldn't be thrown");
+        }
+
+        assertEquals(snake.size(), 1);
+    }
+
+    @Test
     public void testEat() {
         var snake = this.createSnake();
 
         assertEquals(snake.size(), 1);
 
-        var food = new Food(2, new Point(0, 0));
+        boolean didSnakeEat = snake.eats(
+                new Food(2, new Point(0, 0))
+        );
+
+        assertTrue(didSnakeEat);
+
         try {
-            snake.eats(food)
-                    .nextStep()
+            snake.nextStep()
                     .nextStep()
                     .nextStep()
                     .nextStep();
@@ -52,11 +76,10 @@ public class SnakeTest {
     @Test
     public void testNextStepShape() {
         var snake = this.createSnake();
-        var food = new Food(2, new Point(10, 10));
+        snake.eats(new Food(2, new Point(0, 0)));
 
         try {
-            snake.eats(food)
-                    .nextStep()
+            snake.nextStep()
                     .setDirection(Direction.RIGHT)
                     .nextStep();
         } catch (BiteItselfException e) {
@@ -79,10 +102,9 @@ public class SnakeTest {
     @Test(expectedExceptions = BiteItselfException.class)
     public void testBitingSnakeItself() throws BiteItselfException {
         var snake = this.createSnake();
-        var food = new Food(4, new Point(0, 0));
+        snake.eats(new Food(4, new Point(0, 0)));
 
-        snake.eats(food)
-                .nextStep()
+        snake.nextStep()
                 .setDirection(Direction.RIGHT)
                 .nextStep()
                 .setDirection(Direction.DOWN)
@@ -100,10 +122,10 @@ public class SnakeTest {
         points.add(new Point(1, 1));
 
         var snake = this.createSnake();
+        snake.eats(new Food(3, new Point(0, 0)));
 
         try {
-            snake.eats(new Food(3, new Point(0, 0)))
-                .nextStep().nextStep().nextStep();
+            snake.nextStep().nextStep().nextStep();
         } catch (BiteItselfException e) {
             fail("Exception BiteItselfException shouldn't be thrown");
         }

@@ -55,9 +55,13 @@ public class Snake implements Iterable<Point> {
      * Increase the size of the snake.
      * Size are not increasing immediately but by the next several steps of the snake.
      */
-    synchronized Snake eats(@NotNull Food food) {
-        this.growingSteps += food.getCalorie();
-        return this;
+    synchronized boolean eats(@NotNull Food food) {
+        if (this.getHeadPoint().equals(food.getPosition())) {
+            this.growingSteps += food.getCalorie();
+            return true;
+        }
+
+        return false;
     }
 
     /**
