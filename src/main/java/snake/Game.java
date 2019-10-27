@@ -69,6 +69,18 @@ public class Game implements ControllerListener {
         }
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
+    public Snake getSnake() {
+        return snake;
+    }
+
+    public Food getFood() {
+        return food;
+    }
+
     private void mainLoop()
             throws BiteItselfException, BiteWallException, ThereIsNoPointsLeftException {
 
