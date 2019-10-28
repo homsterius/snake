@@ -23,6 +23,6 @@ class StepsCalculator {
     }
 
     private int calcSteps() {
-        return (int) ((System.nanoTime() - this.lastSpeedChange) / (1_000_000.0 / this.stepsPerSecond));
+        return (int) ((System.nanoTime() - this.lastSpeedChange) / (1_000_000_000.0 / this.stepsPerSecond));
     }
 }
