@@ -100,7 +100,7 @@ public class Snake implements Iterable<Point> {
         return direction;
     }
 
-    public synchronized Snake setDirection(@NotNull Direction newDirection) {
+    synchronized Snake setDirection(@NotNull Direction newDirection) {
         switch (newDirection) {
             case UP:
             case DOWN:
