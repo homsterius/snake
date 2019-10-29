@@ -3,7 +3,7 @@ package snake;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Controller implements Runnable {
+public abstract class Controller {
 
     private final List<ControllerListener> controllerListeners;
 

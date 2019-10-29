@@ -12,8 +12,6 @@ public class Game implements ControllerListener {
 
     private StepsCalculator stepsCalc;
 
-    private final Thread controllerThread;
-    private final Controller controller;
     private final Renderer renderer;
 
     /**
@@ -27,11 +25,7 @@ public class Game implements ControllerListener {
 
         this.renderer = theRenderer;
 
-        this.controller = theController;
-        this.controller.addListener(this);
-
-        this.controllerThread = new Thread(this.controller);
-        this.controllerThread.start();
+        theController.addListener(this);
     }
 
     /**
