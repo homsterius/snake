@@ -107,7 +107,7 @@ public class SnakeTest {
         snake.nextStep()
                 .setDirection(Direction.RIGHT)
                 .nextStep()
-                .setDirection(Direction.DOWN)
+                .setDirection(Direction.UP)
                 .nextStep()
                 .setDirection(Direction.LEFT)
                 .nextStep();
@@ -156,6 +156,6 @@ public class SnakeTest {
     }
 
     private Snake createSnake() {
-        return new Snake(new Point(0, 0), Direction.UP);
+        return new Snake(new Point(0, 0), Direction.DOWN);
     }
 }
