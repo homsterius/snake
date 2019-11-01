@@ -31,8 +31,16 @@ public class Board {
         this.initInnerPoints();
     }
 
+    public int getWidth() {
+        return this.rightmostX - this.leftmostX;
+    }
+
+    public int getHeight() {
+        return this.lowerY - this.upperY;
+    }
+
     private void initInnerPoints() {
-        for (int y = this.lowerY + 1; y < this.upperY; ++y) {
+        for (int y = this.upperY + 1; y < this.lowerY; ++y) {
             for (int x = this.leftmostX + 1; x < this.rightmostX; ++x) {
                 Point p = new Point(x, y);
 
@@ -52,10 +60,10 @@ public class Board {
             if (this.rightmostX < point.getX()) {
                 this.rightmostX = point.getX();
             }
-            if (this.upperY < point.getY()) {
+            if (this.upperY > point.getY()) {
                 this.upperY = point.getY();
             }
-            if (this.lowerY > point.getY()) {
+            if (this.lowerY < point.getY()) {
                 this.lowerY = point.getY();
             }
 
