@@ -88,10 +88,7 @@ public class Board {
                 } else if (point.getX() == x) {
                     return false;
                 }
-            } else if (p0.getY() == point.getY() && p1.getY() == point.getY() &&
-                    (point.getX() >= p0.getX() && point.getX() <= p1.getX() ||
-                            point.getX() >= p1.getX() && point.getX() <= p0.getX())
-            ) {
+            } else if (this.isPointOnAHorizontalLine(point, p0, p1)) {
                 return false;
             }
 
@@ -99,6 +96,12 @@ public class Board {
         }
 
         return isAPointInside;
+    }
+
+    private boolean isPointOnAHorizontalLine(Point point, Point p0, Point p1) {
+        return p0.getY() == point.getY() && p1.getY() == point.getY() &&
+                (point.getX() >= p0.getX() && point.getX() <= p1.getX() ||
+                        point.getX() >= p1.getX() && point.getX() <= p0.getX());
     }
 
     public int getNumberOfInnerPoints() {
