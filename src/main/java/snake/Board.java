@@ -149,11 +149,11 @@ public class Board {
         var point = this.randomPoint();
         Direction direction;
 
-        if (this.isAPointInside(new Point(point.getX(), point.getY() + 1))) {
+        if (this.isAPointInside(new Point(point.getX(), point.getY() - 1))) {
             direction = Direction.UP;
         } else if (this.isAPointInside(new Point(point.getX() + 1, point.getY()))) {
             direction = Direction.RIGHT;
-        } else if (this.isAPointInside(new Point(point.getX(), point.getY() - 1))) {
+        } else if (this.isAPointInside(new Point(point.getX(), point.getY() + 1))) {
             direction = Direction.DOWN;
         } else {
             direction = Direction.LEFT;
