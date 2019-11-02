@@ -75,24 +75,20 @@ public class Board {
      * Check collision by even-odd rule
      */
     public boolean isAPointInside(@NotNull Point point) {
-        var p0 = this.points[this.points.length - 1];
-
         boolean isAPointInside = false;
 
-        for (var p1 : this.points) {
-            if ((p0.getY() < point.getY()) != (p1.getY() < point.getY())) {
-                int x = this.getXOfALine(point.getY(), p0, p1);
+        for (var pair : new PointsPairIterable(this.points)) {
+            if ((pair.firstPoint.getY() < point.getY()) != (pair.secondPoint.getY() < point.getY())) {
+                int x = this.getXOfALine(point.getY(), pair.firstPoint, pair.secondPoint);
 
                 if (point.getX() < x) {
                     isAPointInside = !isAPointInside;
                 } else if (point.getX() == x) {
                     return false;
                 }
-            } else if (this.isPointOnAHorizontalLine(point, p0, p1)) {
+            } else if (this.isPointOnAHorizontalLine(point, pair.firstPoint, pair.secondPoint)) {
                 return false;
             }
-
-            p0 = p1;
         }
 
         return isAPointInside;
