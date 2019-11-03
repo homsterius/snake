@@ -4,9 +4,10 @@ import snake.Exceptions.ThereIsNoPointsLeftException;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class Board {
+public class Board implements Iterable<Point> {
 
     private final Point[] points;
     private final List<Point> innerPoints;
@@ -156,5 +157,10 @@ public class Board {
         }
 
         return new Snake(point, direction);
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        return new BorderIterator(this.points);
     }
 }
