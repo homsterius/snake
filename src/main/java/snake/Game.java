@@ -20,7 +20,7 @@ public class Game implements ControllerListener {
      *                    object when there is something that can affect on game view
      */
     public Game(Controller theController, Renderer theRenderer) {
-        this.board = BoardFactory.buildSquareBoard(25);
+        this.board = BoardFactory.buildSquareBoard(15);
         this.snake = this.board.buildSnake();
 
         this.renderer = theRenderer;
@@ -52,7 +52,7 @@ public class Game implements ControllerListener {
     }
 
     public void run() throws BiteItselfException, BiteWallException {
-        this.stepsCalc = new StepsCalculator(1.0);
+        this.stepsCalc = new StepsCalculator(2.5);
 
         try {
             this.food = this.buildFood();
