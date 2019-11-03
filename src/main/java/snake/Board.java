@@ -32,11 +32,11 @@ public class Board {
     }
 
     public int getWidth() {
-        return this.rightmostX - this.leftmostX;
+        return this.rightmostX - this.leftmostX + 1;
     }
 
     public int getHeight() {
-        return this.lowerY - this.upperY;
+        return this.lowerY - this.upperY + 1;
     }
 
     private void initInnerPoints() {
