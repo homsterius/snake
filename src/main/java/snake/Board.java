@@ -79,14 +79,14 @@ public class Board {
 
         for (var pair : new PointsPairIterable(this.points)) {
             if ((pair.firstPoint.getY() < point.getY()) != (pair.secondPoint.getY() < point.getY())) {
-                int x = this.getXOfALine(point.getY(), pair.firstPoint, pair.secondPoint);
+                int x = this.getXOfALine(point.getY(), pair);
 
                 if (point.getX() < x) {
                     isAPointInside = !isAPointInside;
                 } else if (point.getX() == x) {
                     return false;
                 }
-            } else if (this.isPointOnAHorizontalLine(point, pair.firstPoint, pair.secondPoint)) {
+            } else if (this.isPointOnAHorizontalLine(point, pair)) {
                 return false;
             }
         }
@@ -94,10 +94,10 @@ public class Board {
         return isAPointInside;
     }
 
-    private boolean isPointOnAHorizontalLine(Point point, Point p0, Point p1) {
-        return p0.getY() == point.getY() && p1.getY() == point.getY() &&
-                (point.getX() >= p0.getX() && point.getX() <= p1.getX() ||
-                        point.getX() >= p1.getX() && point.getX() <= p0.getX());
+    private boolean isPointOnAHorizontalLine(Point point, PointsPair pair) {
+        return pair.firstPoint.getY() == point.getY() && pair.secondPoint.getY() == point.getY() &&
+                (point.getX() >= pair.firstPoint.getX() && point.getX() <= pair.secondPoint.getX() ||
+                        point.getX() >= pair.secondPoint.getX() && point.getX() <= pair.firstPoint.getX());
     }
 
     public int getNumberOfInnerPoints() {
@@ -107,10 +107,10 @@ public class Board {
     /**
      * Returns x coordinate of a point on a line by y coordinate
      */
-    private int getXOfALine(int y, Point p0, Point p1) {
-        return p0.getX() +
-                (y - p0.getY()) * (p1.getX() - p0.getX()) /
-                        (p1.getY() - p0.getY());
+    private int getXOfALine(int y, PointsPair pair) {
+        return pair.firstPoint.getX() +
+                (y - pair.firstPoint.getY()) * (pair.secondPoint.getX() - pair.firstPoint.getX()) /
+                        (pair.secondPoint.getY() - pair.firstPoint.getY());
     }
 
     private @NotNull Point randomPoint(@NotNull Snake snake) throws ThereIsNoPointsLeftException {
