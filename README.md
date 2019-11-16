@@ -1,3 +1,3 @@
 # Snake game
 
-![snake GUI](./snake_gui.gif)
+![homsterius.snake GUI](./snake_gui.gif)
